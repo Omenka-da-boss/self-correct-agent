@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Correcting Agent Loop</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <div>
+                <span class="eyebrow">LangGraph · DigitalOcean Gradient™ AI · Serverless Inference</span>
+                <h1>Self-Correcting Multi-Agent System</h1>
+                <p class="hero-copy">
+                    A Writer → Reviewer → Reviser workflow powered by DigitalOcean Serverless Inference that improves an answer until the reviewer accepts it.
+                </p>
+            </div>
+            <div class="loop-badge">↻ AI agent loop</div>
+        </section>
+
+        <section class="inference-strip" aria-label="Inference configuration">
+            <div>
+                <span>Inference</span>
+                <strong>{{ runtime.provider }}</strong>
+            </div>
+            {% if runtime.router_enabled %}
+            <div>
+                <span>Routing</span>
+                <strong>router:{{ runtime.router }}</strong>
+            </div>
+            {% else %}
+            <div>
+                <span>Model</span>
+                <strong>{{ runtime.writer_model }}</strong>
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="workflow" aria-label="Agent workflow">
+            <div class="workflow-node"><span>1</span><strong>Writer</strong><small>Create</small></div>
+            <div class="arrow">→</div>
+            <div class="workflow-node"><span>2</span><strong>Reviewer</strong><small>Evaluate</small></div>
+            <div class="arrow">→</div>
+            <div class="workflow-node"><span>3</span><strong>Reviser</strong><small>Improve</small></div>
+            <div class="loop-arrow">↩ Reviewer</div>
+        </section>
+
+        <section class="input-card">
+            <label for="topic">What should the agents explain?</label>
+            <div class="input-row">
+                <input id="topic" type="text" value="{{ example_topic }}" maxlength="300" autocomplete="off">
+                <button id="runButton" type="button">Run Agent Loop</button>
+            </div>
+            <p class="hint">Try: “Explain recursion in programming” or “What is RAG?”</p>
+        </section>
+
+        <section id="status" class="status hidden" aria-live="polite"></section>
+
+        <section id="results" class="results hidden">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">Execution trace</span>
+                    <h2>Watch the correction loop</h2>
+                </div>
+                <div id="summaryBadge" class="summary-badge"></div>
+            </div>
+            <div id="timeline" class="timeline"></div>
+            <div class="final-card">
+                <div class="final-heading">
+                    <div>
+                        <span class="eyebrow">Final output</span>
+                        <h2>Accepted Answer</h2>
+                    </div>
+                    <span id="finalDecision" class="decision"></span>
+                </div>
+                <div id="finalAnswer" class="answer"></div>
+            </div>
+        </section>
+    </main>
+    <script src="{{ url_for('static', path='/app.js') }}"></script>
+</body>
+</html>
